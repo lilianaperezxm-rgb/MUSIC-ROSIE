@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROSÉ Songs</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f3e8df;
+  overflow-x: hidden;
+}
+
+.wrapper {
+  display: flex;
+  width: 300vw;
+  height: 100vh;
+  transition: transform 0.6s ease-in-out;
+}
+
+/* ---------- PANTALLAS ---------- */
+.screen {
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+  flex-shrink: 0;
+}
+
+/* ---------- PANTALLA 1 ---------- */
+.cover {
+  background: black;
+  border-radius: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: zoom 12s infinite alternate;
+}
+
+.cover img {
+  width: 100%;
+  border-radius: 20px;
+}
+
+@keyframes zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+
+/* ---------- PANTALLA 2 ---------- */
+.albums {
+  background: black;
+  border-radius: 20px;
+  padding: 20px;
+  color: white;
+  display: flex;
+}
+
+.album-main img {
+  width: 100%;
+  border-radius: 20px;
+}
+
+.album-list {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.album {
+  position: relative;
+  cursor: pointer;
+}
+
+.album img {
+  width: 80px;
+  border-radius: 10px;
+}
+
+.album::after {
+  content: "";
+  position: absolute;
+  right: -20px;
+  top: 10px;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, #444 20%, #111 60%);
+  border-radius: 50%;
+}
+
+/* ---------- PANTALLA 3 ---------- */
+.songs {
+  background: black;
+  border-radius: 20px;
+  padding: 20px;
+  color: white;
+  overflow-y: auto;
+}
+
+.song {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  position: relative;
+  text-decoration: none;
+  color: white;
+}
+
+.song img {
+  width: 90px;
+  border-radius: 12px;
+  z-index: 2;
+}
+
+.vinyl {
+  position: absolute;
+  left: 55px;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, #555 10%, #111 60%);
+  border-radius: 50%;
+  animation: spin 3s linear infinite;
+  z-index: 1;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper" id="slider">
+
+  <!-- PANTALLA 1 -->
+  <section class="screen">
+    <div class="cover" onclick="goTo(1)">
+      <img src="img/cover.jpg">
+    </div>
+  </section>
+
+  <!-- PANTALLA 2 -->
+  <section class="screen">
+    <div class="albums">
+      <div class="album-main">
+        <img src="img/rose_main.jpg">
+      </div>
+
+      <div class="album-list">
+        <div class="album" onclick="loadAlbum('r')">
+          <img src="img/r_album.jpg">
+        </div>
+        <div class="album" onclick="loadAlbum('bornpink')">
+          <img src="img/born_pink.jpg">
+        </div>
+        <div class="album" onclick="loadAlbum('rosie')">
+          <img src="img/rosie_album.jpg">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANTALLA 3 -->
+  <section class="screen">
+    <div class="songs" id="songList"></div>
+  </section>
+
+</div>
+
+<script>
+const slider = document.getElementById("slider");
+function goTo(n) {
+  slider.style.transform = `translateX(-${n * 100}vw)`;
+}
+
+/* ---------- CANCIONES ---------- */
+const albums = {
+  r: {
+    img: "img/r_album.jpg",
+    songs: [
+      ["On The Ground","https://open.spotify.com/track/2x1V9s7GzU3E2vM3iL3k4A"],
+      ["Gone","https://open.spotify.com/track/3Kkjo3cT83cw09VJyrLNwX"]
+    ]
+  },
+  bornpink: {
+    img: "img/born_pink.jpg",
+    songs: [
+      ["Hard To Love","https://open.spotify.com/track/3gFQOMoUwlR6aUZj81gCzu"]
+    ]
+  },
+  rosie: {
+    img: "img/rosie_album.jpg",
+    songs: [
+      ["APT.","https://open.spotify.com/track/5KqldkCunQ2rWxruMEtGh0"],
+      ["Number One Girl","https://open.spotify.com/track/1lcBt7LoEikqYmhUoa2cez?si=_dczDWuEQ2mGY8-xP9BFEA"],
+      ["3am","https://open.spotify.com/track/3y4q6bBdbXsTIaPiwiiUfy?si=BeqstG9QTsKNNJo2t8GVEw"],
+      ["Two Years","https://open.spotify.com/track/4HxGH28DitgAuuKpEVrLzN?si=hthdBcvXTYS7zrWKUsFToQ"],
+      ["Toxic Till the End","https://open.spotify.com/track/1z5ebC9238uGoBgzYyvGpQ?si=miaPltc5ToO0eWzM8hae6A"],
+      ["Drinks or Coffee","https://open.spotify.com/track/3fpWkbEZMP1BgOOfymwoaS?si=PBJ0rF-_Q4aCbrMlvRQ5YQ"],
+      ["Gameboy","https://open.spotify.com/track/77n3jFGqPPxYrEGwrWylNv?si=Ad5VEXP3QAyWRo-AAIg4XA"],
+      ["Stay a Little Longer","https://open.spotify.com/track/5OdI6v2L7Aez4cclpbojiZ?si=G0TOVv0USGmAN4EQ5QbDow"],
+      ["Not the Same","https://open.spotify.com/track/67siqMtQTGPpJZI4Dz8OpM?si=DUq9gUMpQ-G6lGDspaZ45w"],
+      ["Call It the End","https://open.spotify.com/track/5a3tLTGA0HIDtrvnszXXBN?si=1nrB4elxQnCeIR6gf_B4Rg"],
+      ["Too Bad for Us","https://open.spotify.com/track/3tDF6qjNrabjnb23RB2rpa?si=RDYIiY9AT_yOkAxm9VVcyw"],
+      ["Dance All Night","https://open.spotify.com/track/50aQbgfdydBXABx2gATQHn?si=YeZKIvNOSVOEwWHMOdaYFQ"]
+    ]
+  }
+};
+
+function loadAlbum(key) {
+  const list = document.getElementById("songList");
+  list.innerHTML = "";
+  albums[key].songs.forEach(song => {
+    list.innerHTML += `
+      <a class="song" href="${song[1]}" target="_blank">
+        <div class="vinyl"></div>
+        <img src="${albums[key].img}">
+        <span>${song[0]}</span>
+      </a>`;
+  });
+  goTo(2);
+}
+</script>
+
+</body>
+    </html>
